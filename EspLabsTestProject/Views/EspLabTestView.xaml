@@ -36,11 +36,11 @@
                    Grid.ColumnSpan="2" Text="Name / Value Pair" MinWidth="200">
             </TextBlock>
 
-            <Button x:Name="addToListButton" Grid.Row="1" Grid.Column="3" Content="Add"></Button>
+            <Button x:Name="AddToListButton" Grid.Row="1" Grid.Column="3" Content="Add" ></Button>
 
 
             <!--Row 2-->
-            <TextBox x:Name="inputTextBox" Grid.Row="2" Grid.Column="1"
+            <TextBox x:Name="InputTextBox" Grid.Row="2" Grid.Column="1"
                    Grid.ColumnSpan="2" Background="LightBlue"/>
             <Button x:Name="filterFromList" Grid.Row="2" Grid.Column="3" Content="Filter"></Button>
 
@@ -54,10 +54,16 @@
             <Button x:Name="clearFilterButton" Grid.Row="3" Grid.Column="3" Content="Clear Filter"></Button>
 
             <!--Row 4-->
-            <TextBox x:Name="myDisplayListBox" Grid.Row="4" Grid.Column="1"
-                   Grid.ColumnSpan="2" Grid.RowSpan="4"
-                     Background="LightBlue"/>
-            <Button x:Name="sortByNameButton" Grid.Row="4" Grid.Column="3" Content="Sort by Name"></Button>
+            <ScrollViewer  Grid.Row="4" Grid.Column="1"
+                        Grid.ColumnSpan="2" Grid.RowSpan="4">
+            <ListBox 
+                        x:Name="MyDisplayListBox"
+                        Background="LightBlue" ItemsSource="{Binding Path=InputTextBox , Mode=OneWay}">
+            </ListBox>
+             </ScrollViewer>
+                
+
+        <Button x:Name="sortByNameButton" Grid.Row="4" Grid.Column="3" Content="Sort by Name"></Button>
 
 
             <!--Row 5-->
@@ -65,7 +71,7 @@
 
 
             <!--Row 6-->
-            <Button x:Name="deleteButton" Grid.Row="6" Grid.Column="3" Content="Sort by Value"></Button>
+            <Button x:Name="deleteButton" Grid.Row="6" Grid.Column="3" Content="Delete"></Button>
 
 
      </Grid>
