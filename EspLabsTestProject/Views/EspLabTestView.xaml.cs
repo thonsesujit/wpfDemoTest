@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace EspLabsTestProject.Views
 {
     /// <summary>
-    /// Interaction logic for EspLabTest.xaml
+    /// Interaction logic for EspLabTestView.xaml
     /// </summary>
-    public partial class EspLabTest : Window
+    public partial class EspLabTestView : Window
     {
-        public EspLabTest()
+        public EspLabTestView()
         {
             InitializeComponent();
         }
