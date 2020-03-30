@@ -12,6 +12,10 @@ using System.Windows;
 
 namespace EspLabsTestProject.ViewModels
 {
+
+    /// <summary>
+    /// Caliburn Micro is used to maintain MVVM. 
+    /// </summary>
     public class EspLabTestViewModel : Screen
     {
         private string _key;
@@ -20,18 +24,6 @@ namespace EspLabsTestProject.ViewModels
         private string _inputTextBox;
         private KeyValuePairModel _selectedKeyValuePair;
         private BindingList<KeyValuePairModel> fullList;
-        //private BindableCollection<KeyValuePairModel> _myDisplayListBox = new BindableCollection<KeyValuePairModel>();
-
-        /// <summary>
-        /// Its a hack there might be better way
-        /// </summary>
-        //private List<KeyValuePairModel> _myDisplayListBox = new List<KeyValuePairModel>();
-
-        //public List<KeyValuePairModel> MyDisplayListBox
-        //{
-        //    get { return _myDisplayListBox; }
-        //    set { _myDisplayListBox = value; }
-        //}
 
 
         private BindingList<KeyValuePairModel> _myDisplayListBox;
@@ -45,10 +37,7 @@ namespace EspLabsTestProject.ViewModels
             }
             set { _myDisplayListBox = value; }
         }
-
-
-
-
+                     
         //Just to simulate database in a constructor.
         public EspLabTestViewModel()
         {
@@ -90,7 +79,8 @@ namespace EspLabsTestProject.ViewModels
             {
                 _inputTextBox = value;
                 NotifyOfPropertyChange(() => InputTextBox);
-                NotifyOfPropertyChange(() => CanAddToList);
+                NotifyOfPropertyChange(() => CanFilter);
+
 
             }
         }
@@ -112,7 +102,52 @@ namespace EspLabsTestProject.ViewModels
             }
         }
 
-        public bool CanAddToList
+
+        public void AddToList(string inputTextBox)
+        {
+            ValidateInput(inputTextBox);
+            if(Key != null || Value != null)
+            {
+                KeyValuePairModel newKeyValuePair = new KeyValuePairModel
+                {
+                    Key = Key,
+                    Value = Value
+                };
+                MyDisplayListBox.Add(newKeyValuePair);
+
+                NotifyOfPropertyChange(() => MyDisplayListBox);
+            }
+                             
+        }
+
+
+        public bool CanFilter
+        {
+            get
+            {
+                bool output = false;
+
+                //Make sure something is selected
+                if (InputTextBox != null && MyDisplayListBox.Count !=0)
+                {
+                    output = true;
+                }
+
+                return output;
+            }
+        }
+
+        public void Filter(string inputTextBox)
+        {
+            List<KeyValuePairModel> filteredList = MyDisplayListBox.Where(x => x.KeyValuePair == inputTextBox).ToList();
+            fullList = MyDisplayListBox;
+            MyDisplayListBox = new BindingList<KeyValuePairModel>(filteredList);
+            NotifyOfPropertyChange(() => MyDisplayListBox);
+            NotifyOfPropertyChange(() => CanFilter);
+        }
+
+        //check if inputtextbox is filled
+        public bool CanClearFilter
         {
             get
             {
@@ -126,119 +161,57 @@ namespace EspLabsTestProject.ViewModels
 
                 return output;
             }
-
-        }
-
-
-
-
-
-        public void AddToList(string inputTextBox)
-        {
-            ValidateInput(inputTextBox);
-
-            KeyValuePairModel newKeyValuePair = new KeyValuePairModel
-            {
-                Key = Key,
-                Value = Value
-            };
-            MyDisplayListBox.Add(newKeyValuePair);
-   
-            NotifyOfPropertyChange(() => MyDisplayListBox);
-                        
-        }
-
-        public bool CanFilter(string inputTextBox)
-        {
-            if (string.IsNullOrEmpty(inputTextBox))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-
-        public void Filter(string inputTextBox)
-        {
-            //KeyValuePairModel forFilter = MyDisplayListBox.Where(x => x.KeyValuePair == inputTextBox);
-            //fullList = MyDisplayListBox;
-            //MyDisplayListBox = MyDisplayListBox.Where(x => x.KeyValuePair == inputTextBox).ToList();
-            NotifyOfPropertyChange(() => MyDisplayListBox);
-        }
-
-        //check if inputtextbox is filled
-        public bool CanClearFilter(string inputTextBox)
-        {
-            if(string.IsNullOrEmpty(inputTextBox))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
         }
         //this works in pair with the above method
         public void ClearFilter(string inputTextBox)
         {
             InputTextBox = String.Empty;
-            //MyDisplayListBox = fullList;
+            MyDisplayListBox = fullList;
             NotifyOfPropertyChange(() => MyDisplayListBox);
 
         }
 
-        public void DeleteButton()
+
+        public void SortByName()
         {
-            MyDisplayListBox.RemoveAt(0);
+
+            List<KeyValuePairModel> sortByNameList = MyDisplayListBox.OrderBy(x => x.Key).ToList();
+            MyDisplayListBox = new BindingList<KeyValuePairModel>(sortByNameList);
+            NotifyOfPropertyChange(() => MyDisplayListBox);
 
         }
 
-        //public void SortByName(string key)
-        //{
-        //    MyDisplayListBox = MyDisplayListBox.OrderBy(x => x.Key).ToList();
-        //    NotifyOfPropertyChange(() => MyDisplayListBox);
-
-        //}
-
-        //public void SortByValue(string key)
-        //{
-        //    MyDisplayListBox = MyDisplayListBox.OrderBy(x => x.Value).ToList();
-        //    NotifyOfPropertyChange(() => MyDisplayListBox);
-
-        //}
-
-        //public BindableCollection<KeyValuePairModel> MyDisplayListBox
-        //{
-        //    get { return _myDisplayListBox; }
-        //    set
-        //    {
-        //        _myDisplayListBox = value;
-        //        NotifyOfPropertyChange(() => MyDisplayListBox);
-        //    }
-        //}
-
-
+        public void SortByValue()
+        {
+            List<KeyValuePairModel> sortByValueList = MyDisplayListBox.OrderBy(x => x.Value).ToList();
+            MyDisplayListBox = new BindingList<KeyValuePairModel>(sortByValueList);
+            NotifyOfPropertyChange(() => MyDisplayListBox);
+        }
 
 
         //Validates input and removes whitespaces
         public void ValidateInput(string input)
         {
-            string inputWithoutWS = Regex.Replace(input, @"\s+", String.Empty);
-            String[] inputArray = inputWithoutWS.Split('=');
-            if (inputArray.Count() == 2 && inputArray[0].All(char.IsLetterOrDigit) && inputArray[1].All(char.IsLetterOrDigit))
+            Key = null;
+            Value = null;
+            //string inputWithoutWS = Regex.Replace(input, @"\s+", String.Empty);
+            //String[] inputArray = input.Split('=');
+            string[] inputArray = input.Split('=').Select(a => a.Trim()).ToArray();
+            if (inputArray.Count() == 2 && inputArray[0].All(char.IsLetterOrDigit) && 
+                inputArray[1].All(char.IsLetterOrDigit) && inputArray[0] != "" && inputArray[1] != "")
             {
                 
                 Key = inputArray[0];
                 Value = inputArray[1];
       
             }
-            else if (inputArray.Count() != 2)
+            else 
             {
-                MessageBox.Show("Please enter only alphanumberic key-value pairs");
+ 
+                MessageBox.Show("Only aplha-numeric characters of <name> = <value> format is accepted");
             }
-           
+
+
         }
 
         //Delete Selected keyvalue pair from the listbox
