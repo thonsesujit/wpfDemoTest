@@ -24,9 +24,6 @@ namespace EspLabsTestProject.Views
             InitializeComponent();
         }
 
-        private void AddToListButton_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
     }
 }
