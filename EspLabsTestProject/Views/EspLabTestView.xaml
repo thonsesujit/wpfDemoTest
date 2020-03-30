@@ -36,13 +36,13 @@
                    Grid.ColumnSpan="2" Text="Name / Value Pair" MinWidth="200">
             </TextBlock>
 
-            <Button x:Name="AddToListButton" Grid.Row="1" Grid.Column="3" Content="Add" ></Button>
+            <Button x:Name="AddToList" Grid.Row="1" Grid.Column="3" Content="Add" ></Button>
 
 
             <!--Row 2-->
             <TextBox x:Name="InputTextBox" Grid.Row="2" Grid.Column="1"
                    Grid.ColumnSpan="2" Background="LightBlue"/>
-            <Button x:Name="filterFromList" Grid.Row="2" Grid.Column="3" Content="Filter"></Button>
+            <Button x:Name="Filter" Grid.Row="2" Grid.Column="3" Content="Filter"></Button>
 
 
 
@@ -51,31 +51,40 @@
                    Grid.ColumnSpan="2" Text="Name / Value Pair List">
 
             </TextBlock>
-            <Button x:Name="clearFilterButton" Grid.Row="3" Grid.Column="3" Content="Clear Filter"></Button>
+            <Button x:Name="ClearFilter" Grid.Row="3" Grid.Column="3" Content="Clear Filter"></Button>
 
             <!--Row 4-->
             <ScrollViewer  Grid.Row="4" Grid.Column="1"
                         Grid.ColumnSpan="2" Grid.RowSpan="4">
             <!--<ListBox x:Name="MyDisplayListBox" Background="LightBlue" HorizontalContentAlignment="Stretch" SelectionMode="Extended" SelectionChanged="lbTodoList_SelectionChanged">-->
-            <ListBox x:Name="MyDisplayListBox" Background="LightBlue" SelectedItem="{Binding SelectedKeyValuePair}" >
+            <ListBox x:Name="MyListBox" Background="LightBlue" ItemsSource="{Binding Path= MyDisplayListBox}" 
+                     SelectedItem="{Binding SelectedKeyValuePair , Mode=TwoWay}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding KeyValuePair}"/>
+                        <TextBlock x:Name="SelectedFromList"  Text="{Binding KeyValuePair}"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
              </ScrollViewer>
-                
 
-        <Button x:Name="sortByNameButton" Grid.Row="4" Grid.Column="3" Content="Sort by Name"></Button>
+
+
+            <Button x:Name="SortByName" Grid.Row="4" Grid.Column="3" Content="Sort by Name"></Button>
 
 
             <!--Row 5-->
-            <Button x:Name="sortByValueButton" Grid.Row="5" Grid.Column="3" Content="Sort by Value"></Button>
+            <Button x:Name="SortByValue" Grid.Row="5" Grid.Column="3" Content="Sort by Value"></Button>
 
 
             <!--Row 6-->
-        <Button x:Name="DeleteButton" Grid.Row="6" Grid.Column="3" Content="Delete"></Button>
+            <Button x:Name="DeleteSelectedText" Grid.Row="6" Grid.Column="3" Content="Delete"></Button>
+
+
+
+        <!--<ComboBox x:Name="MyDisplayListBox" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"
+                  SelectedItem="{Binding Path=SelectedKeyValuePair, Mode=OneWayToSource}"
+                  DisplayMemberPath="KeyValuePair"/>-->
+        <!--<TextBlock Grid.Row="7" Grid.Column="3" x:Name="SelectedKeyValuePair_KeyValuePair"/>-->
 
     </Grid>
 
