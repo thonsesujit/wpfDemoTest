@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EspLabsTestProject.Views"
-        mc:Ignorable="d"
-        Title="EspLabTestView" Height="200" Width="350">
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Title="EspLabTestView" Height="350" Width="350" Name="UI">
     <Grid>
         <!--Custom Grid Layout-->
  
@@ -21,10 +21,10 @@
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
@@ -56,9 +56,13 @@
             <!--Row 4-->
             <ScrollViewer  Grid.Row="4" Grid.Column="1"
                         Grid.ColumnSpan="2" Grid.RowSpan="4">
-            <ListBox 
-                        x:Name="MyDisplayListBox"
-                        Background="LightBlue" ItemsSource="{Binding Path=InputTextBox , Mode=OneWay}">
+            <!--<ListBox x:Name="MyDisplayListBox" Background="LightBlue" HorizontalContentAlignment="Stretch" SelectionMode="Extended" SelectionChanged="lbTodoList_SelectionChanged">-->
+            <ListBox x:Name="MyDisplayListBox" Background="LightBlue" SelectedItem="{Binding SelectedKeyValuePair}" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding KeyValuePair}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
             </ListBox>
              </ScrollViewer>
                 
@@ -71,8 +75,11 @@
 
 
             <!--Row 6-->
-            <Button x:Name="deleteButton" Grid.Row="6" Grid.Column="3" Content="Delete"></Button>
+        <Button x:Name="DeleteButton" Grid.Row="6" Grid.Column="3" Content="Delete"></Button>
+
+    </Grid>
 
 
-     </Grid>
+
+
 </Window>
