@@ -1,0 +1,106 @@
+﻿<Window x:Class="EspLabsTestProject.Views.EspLabTestView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EspLabsTestProject.Views"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen" 
+        Title="EspLabTestDemo" Height="220" Width="335" Name="UI">
+
+  
+    <Window.Resources>
+        <!--Base TextBlock Style-->
+        <Style TargetType="TextBlock">
+            <Setter Property="Background" Value="FloralWhite"/>
+        </Style>
+    </Window.Resources>
+
+
+
+
+    <Grid>
+        <!--Custom Grid Layout-->
+ 
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+
+            <!--Row 1-->
+            <TextBlock Grid.Row="1" Grid.Column="1"
+                   Grid.ColumnSpan="2" Text="Name / Value Pair" MinWidth="200">
+            </TextBlock>
+
+             <Button x:Name="AddToList" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" 
+                      Content="Add" >
+                
+             </Button>
+
+
+            <!--Row 2-->
+            <TextBox x:Name="InputTextBox" Grid.Row="2" Grid.Column="1"
+                   Grid.ColumnSpan="2" Background="LightBlue"/>
+            <Button x:Name="Filter" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" Content="Filter"></Button>
+
+
+
+            <!--Row 3-->
+            <TextBlock Grid.Row="3" Grid.Column="1"
+                   Grid.ColumnSpan="2" Text="Name / Value Pair List">
+
+            </TextBlock>
+        <Button x:Name="ClearFilter" Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="2" Content="Clear Filter"></Button>
+
+            <!--Row 4-->
+            <ScrollViewer  Grid.Row="4" Grid.Column="1"
+                        Grid.ColumnSpan="2" Grid.RowSpan="4">
+            <ListBox x:Name="MyListBox" Background="LightBlue" ItemsSource="{Binding Path= MyDisplayListBox}" 
+                     SelectedItem="{Binding SelectedKeyValuePair , Mode=TwoWay}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock x:Name="SelectedFromList"  Text="{Binding KeyValuePair}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+             </ScrollViewer>
+
+        <Button x:Name="SortByName" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2"  Content="Sort by Name"></Button>
+
+
+            <!--Row 5-->
+        <Button x:Name="SortByValue" Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2" Content="Sort by Value"></Button>
+
+
+            <!--Row 6-->
+        <Button x:Name="DeleteSelectedText" Grid.Row="6" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="2" Content="Delete"></Button>
+
+        
+        
+        
+
+    </Grid>
+
+
+
+
+</Window>
