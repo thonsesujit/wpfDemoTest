@@ -24,30 +24,17 @@ namespace EspLabsTestProject.ViewModels
         private string _inputTextBox;
         private KeyValuePairModel _selectedKeyValuePair;
         private BindingList<KeyValuePairModel> fullList;
-
-
         private BindingList<KeyValuePairModel> _myDisplayListBox;
 
-        public BindingList<KeyValuePairModel> MyDisplayListBox
-        {
-            get {
-                if (_myDisplayListBox == null)
-                    _myDisplayListBox = new BindingList<KeyValuePairModel>();
-                return _myDisplayListBox;
-            }
-            set { _myDisplayListBox = value; }
-        }
-                     
+        
         //Just to simulate database in a constructor.
         public EspLabTestViewModel()
         {
 
             MyDisplayListBox.Add(new KeyValuePairModel { Key = "Hello", Value = "World" });
-            MyDisplayListBox.Add(new KeyValuePairModel { Key = "FirstName", Value = "Bob" });
-            MyDisplayListBox.Add(new KeyValuePairModel { Key = "Hello", Value = "World" });
-            MyDisplayListBox.Add(new KeyValuePairModel { Key = "Name", Value = "Sujit" });
-            MyDisplayListBox.Add(new KeyValuePairModel { Key = "Name", Value = "Sujit" });
-            MyDisplayListBox.Add(new KeyValuePairModel { Key = "Name", Value = "Sujit" });
+            MyDisplayListBox.Add(new KeyValuePairModel { Key = "FirstName", Value = "Sujit" });
+            MyDisplayListBox.Add(new KeyValuePairModel { Key = "Language", Value = "CSharp" });
+            MyDisplayListBox.Add(new KeyValuePairModel { Key = "MVVM", Value = "Caliburn" });
 
         }
 
@@ -71,6 +58,16 @@ namespace EspLabsTestProject.ViewModels
             set { _keyValuePair = value; }
         }
 
+        public BindingList<KeyValuePairModel> MyDisplayListBox
+        {
+            get
+            {
+                if (_myDisplayListBox == null)
+                    _myDisplayListBox = new BindingList<KeyValuePairModel>();
+                return _myDisplayListBox;
+            }
+            set { _myDisplayListBox = value; }
+        }
 
         public string InputTextBox
         {
@@ -120,14 +117,35 @@ namespace EspLabsTestProject.ViewModels
                              
         }
 
+        //Validates input and removes whitespaces
+        public void ValidateInput(string input)
+        {
+            Key = null;
+            Value = null;
+            string[] inputArray = input.Split('=').Select(a => a.Trim()).ToArray();
+            if (inputArray.Count() == 2 && inputArray[0].All(char.IsLetterOrDigit) &&
+                inputArray[1].All(char.IsLetterOrDigit) && inputArray[0] != "" && inputArray[1] != "")
+            {
 
+                Key = inputArray[0];
+                Value = inputArray[1];
+
+            }
+            else
+            {
+                MessageBox.Show("Only aplha-numeric characters of <name> = <value> format is accepted");
+            }
+
+
+        }
+
+        //Filter Validation
         public bool CanFilter
         {
             get
             {
                 bool output = false;
 
-                //Make sure something is selected
                 if (InputTextBox != null && MyDisplayListBox.Count !=0)
                 {
                     output = true;
@@ -146,7 +164,7 @@ namespace EspLabsTestProject.ViewModels
             NotifyOfPropertyChange(() => CanFilter);
         }
 
-        //check if inputtextbox is filled
+        //Clear filter validation
         public bool CanClearFilter
         {
             get
@@ -154,7 +172,7 @@ namespace EspLabsTestProject.ViewModels
                 bool output = false;
 
                 //Make sure something is selected
-                if (InputTextBox != null)
+                if (InputTextBox != null && MyDisplayListBox.Count != 0)
                 {
                     output = true;
                 }
@@ -162,7 +180,7 @@ namespace EspLabsTestProject.ViewModels
                 return output;
             }
         }
-        //this works in pair with the above method
+        
         public void ClearFilter(string inputTextBox)
         {
             InputTextBox = String.Empty;
@@ -188,32 +206,7 @@ namespace EspLabsTestProject.ViewModels
             NotifyOfPropertyChange(() => MyDisplayListBox);
         }
 
-
-        //Validates input and removes whitespaces
-        public void ValidateInput(string input)
-        {
-            Key = null;
-            Value = null;
-            //string inputWithoutWS = Regex.Replace(input, @"\s+", String.Empty);
-            //String[] inputArray = input.Split('=');
-            string[] inputArray = input.Split('=').Select(a => a.Trim()).ToArray();
-            if (inputArray.Count() == 2 && inputArray[0].All(char.IsLetterOrDigit) && 
-                inputArray[1].All(char.IsLetterOrDigit) && inputArray[0] != "" && inputArray[1] != "")
-            {
-                
-                Key = inputArray[0];
-                Value = inputArray[1];
-      
-            }
-            else 
-            {
- 
-                MessageBox.Show("Only aplha-numeric characters of <name> = <value> format is accepted");
-            }
-
-
-        }
-
+               
         //Delete Selected keyvalue pair from the listbox
         public void DeleteSelectedText()
         {
@@ -223,13 +216,14 @@ namespace EspLabsTestProject.ViewModels
 
         }
 
+        //Delete button validation
         public bool CanDeleteSelectedText
         {
             get
             {
                 bool output = false;
 
-                //Make sure something is selected
+                
                 if (SelectedKeyValuePair != null)
                 {
                     output = true;
